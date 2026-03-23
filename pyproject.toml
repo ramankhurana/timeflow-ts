@@ -3,13 +3,13 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "timeflot-ts"
+name = "timeflow-ts"
 version = "0.1.0"
 description = "One-stop time series preprocessing, plotting, benchmarking, and metric utilities for experimentation."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "TimeFlot TS Contributors" }]
+authors = [{ name = "TimeFlow TS Contributors" }]
 keywords = ["time-series", "pandas", "scikit-learn", "preprocessing", "plotting"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -48,6 +48,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+include = ["timeflow_ts*"]
 
 [tool.ruff]
 line-length = 100

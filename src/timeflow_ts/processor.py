@@ -12,7 +12,7 @@ class TimeSeriesProcessor:
     """
     Backwards-compatible processor inspired by the original snippet.
 
-    Prefer `TimeFlotExperiment` for new projects.
+    Prefer `TimeFlowExperiment` for new projects.
     """
 
     def __init__(
@@ -39,7 +39,10 @@ class TimeSeriesProcessor:
         self.latin = latin
 
     def load_files(
-        self, file_paths: list[str], *, time_format: str | None = "%d.%m.%Y %H:%M:%S"
+        self,
+        file_paths: list[str],
+        *,
+        time_format: str | None = "%d.%m.%Y %H:%M:%S",
     ) -> pd.DataFrame:
         config = CsvLoadConfig(
             time_column=self.time_column,

@@ -1,4 +1,4 @@
-# Contributing to timeflot-ts
+# Contributing to timeflow-ts
 
 ## Development setup
 
@@ -28,9 +28,9 @@ Follow `ruff` (configured in `pyproject.toml`). Keep functions small and prefer 
 ## Adding new preprocessing/metrics
 
 Prefer adding new functions under:
-- `src/timeflot_ts/preprocessing.py`
-- `src/timeflot_ts/metrics.py`
-- `src/timeflot_ts/diagnostics.py`
+- `src/timeflow_ts/preprocessing.py`
+- `src/timeflow_ts/metrics.py`
+- `src/timeflow_ts/diagnostics.py`
 
-Then wire them into `TimeFlotExperiment` if they are part of the one-stop pipeline.
+Then wire them into `TimeFlowExperiment` if they are part of the one-stop pipeline.
 

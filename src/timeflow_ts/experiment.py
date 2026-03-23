@@ -14,7 +14,7 @@ from .scaling import transform_with_scaler
 
 
 @dataclass(frozen=True)
-class TimeFlotExperimentConfig:
+class TimeFlowExperimentConfig:
     time_column: str = "timestamp"
     value_columns: list[str] | None = None
     latin: bool = True
@@ -35,7 +35,7 @@ class TimeFlotExperimentConfig:
 
 
 @dataclass
-class TimeFlotResult:
+class TimeFlowResult:
     train_df: pd.DataFrame
     val_df: pd.DataFrame | None = None
     test_df: pd.DataFrame | None = None
@@ -48,7 +48,7 @@ class TimeFlotResult:
     scaler_path: str | None = None
 
 
-class TimeFlotExperiment:
+class TimeFlowExperiment:
     """
     One-stop API for time series experimentation.
 
@@ -57,7 +57,7 @@ class TimeFlotExperiment:
     """
 
     def __init__(self, **kwargs):
-        self.config = TimeFlotExperimentConfig(**kwargs)
+        self.config = TimeFlowExperimentConfig(**kwargs)
 
     def _load_split(self, file_paths: list[str]) -> pd.DataFrame:
         load_config = CsvLoadConfig(
@@ -66,8 +66,7 @@ class TimeFlotExperiment:
             latin=self.config.latin,
             time_format=self.config.time_format,
         )
-        df = load_csv_files(file_paths, config=load_config, infer_value_columns=False)
-        return df
+        return load_csv_files(file_paths, config=load_config, infer_value_columns=False)
 
     def _infer_value_columns(self, df: pd.DataFrame) -> list[str]:
         if self.config.value_columns is not None:
@@ -107,6 +106,7 @@ class TimeFlotExperiment:
         plot_kwargs: dict | None,
     ) -> tuple[pd.DataFrame, dict, dict, dict]:
         timings: dict[str, float] = {}
+
         t0 = time.perf_counter()
         df_raw = self._load_split(file_paths)
         timings["load_seconds"] = time.perf_counter() - t0
@@ -173,7 +173,7 @@ class TimeFlotExperiment:
         scaler_path: str | None = "scaler.pkl",
         show_plots: bool = False,
         plot_kwargs: dict | None = None,
-    ) -> TimeFlotResult:
+    ) -> TimeFlowResult:
         """
         Run the full pipeline for train/val/test.
         """
@@ -258,7 +258,7 @@ class TimeFlotExperiment:
             else:
                 df_test_scaled = df_test_clean
 
-        return TimeFlotResult(
+        return TimeFlowResult(
             train_df=df_train_scaled,
             val_df=df_val_scaled,
             test_df=df_test_scaled,

@@ -1,6 +1,6 @@
 import pandas as pd
 
-import timeflot_ts as tfts
+import timeflow_ts as tfts
 
 
 def test_experiment_scales_only_value_columns(tmp_path):
@@ -28,7 +28,7 @@ def test_experiment_scales_only_value_columns(tmp_path):
     train.to_csv(train_path, index=False)
     val.to_csv(val_path, index=False)
 
-    exp = tfts.TimeFlotExperiment(
+    exp = tfts.TimeFlowExperiment(
         time_column="timestamp",
         value_columns=None,
         sentinel_value=-9999.0,

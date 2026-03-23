@@ -3,9 +3,9 @@
 ## Create an experiment
 
 ```python
-import timeflot_ts as tfts
+import timeflow_ts as tfts
 
-exp = tfts.TimeFlotExperiment(
+exp = tfts.TimeFlowExperiment(
     time_column="timestamp",
     value_columns=None,
     sentinel_value=-9999,

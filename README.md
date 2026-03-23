@@ -1,6 +1,6 @@
-# timeflot-ts
+# timeflow-ts
 
-`timeflot-ts` is a one-stop library for experimentation with time series data:
+`timeflow-ts` is a one-stop library for experimentation with time series data:
 - load and sanity-check CSV time series
 - fill missing values and sentinel defaults
 - handle outliers
@@ -12,9 +12,9 @@
 ## Quick start
 
 ```python
-import timeflot_ts as tfts
+import timeflow_ts as tfts
 
-exp = tfts.TimeFlotExperiment(
+exp = tfts.TimeFlowExperiment(
     time_column="timestamp",
     value_columns=None,          # inferred from loaded columns
     sentinel_value=-9999,

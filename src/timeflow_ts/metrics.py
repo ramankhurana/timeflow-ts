@@ -45,9 +45,7 @@ def compute_metrics(
         lower_bound = q1 - 1.5 * iqr
         upper_bound = q3 + 1.5 * iqr
         outlier_total += int(
-            (
-                (df_sorted[col] < lower_bound) | (df_sorted[col] > upper_bound)
-            ).sum()
+            ((df_sorted[col] < lower_bound) | (df_sorted[col] > upper_bound)).sum()
         )
 
     sentinel_total = None

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from timeflot_ts.preprocessing import fill_defaults
+from timeflow_ts.preprocessing import fill_defaults
 
 
 def test_fill_defaults_replaces_sentinel_with_past_rolling_mean():

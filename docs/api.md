@@ -1,20 +1,20 @@
 # API Reference
 
-::: timeflot_ts.experiment.TimeFlotExperiment
+::: timeflow_ts.experiment.TimeFlowExperiment
    :members:
 
-::: timeflot_ts.metrics.compute_metrics
+::: timeflow_ts.metrics.compute_metrics
    :members:
 
-::: timeflot_ts.plotting.plot_timeseries
+::: timeflow_ts.plotting.plot_timeseries
    :members:
 
-::: timeflot_ts.preprocessing.fill_missing
+::: timeflow_ts.preprocessing.fill_missing
    :members:
 
-::: timeflot_ts.preprocessing.fill_defaults
+::: timeflow_ts.preprocessing.fill_defaults
    :members:
 
-::: timeflot_ts.preprocessing.fill_outliers
+::: timeflow_ts.preprocessing.fill_outliers
    :members:
 
