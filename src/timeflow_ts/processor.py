@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 import pandas as pd
 
 from .diagnostics import sanity_checks
@@ -164,4 +166,104 @@ class TimeSeriesProcessor:
             test_scaled = self.transform_with_scaler(test_df, scaler_path=scaler_path)
 
         return train_scaled, val_scaled, test_scaled
+
+    def process_train_val_test1(
+        self,
+        train_files: list[str],
+        val_files: list[str] | None = None,
+        test_files: list[str] | None = None,
+        *,
+        scaler_path: str = "scaler.pkl",
+    ):
+        """
+        Scale train/val/test while preserving the time column.
+
+        This method mirrors the behavior of your original `process_train_val_test1`.
+        """
+
+        def scale_and_restore(df: pd.DataFrame, mode: str = "transform") -> pd.DataFrame:
+            time_col = self.time_column
+            if time_col in df.columns:
+                timestamps = df[time_col]
+                features = df.drop(columns=[time_col])
+            else:
+                timestamps = df.index
+                features = df
+
+            if self.value_columns is None:
+                self.value_columns = list(features.columns)
+
+            if mode == "fit":
+                features_scaled = self.fit_scaler(features, scaler_path=scaler_path)
+            else:
+                features_scaled = self.transform_with_scaler(features, scaler_path=scaler_path)
+
+            df_scaled = pd.DataFrame(
+                features_scaled,
+                columns=features.columns,
+                index=df.index,
+            )
+
+            if time_col in df.columns:
+                df_scaled.insert(0, time_col, timestamps.values)
+
+            return df_scaled
+
+        train_df = self.load_files(train_files)
+        train_scaled = scale_and_restore(train_df, mode="fit")
+
+        val_scaled = None
+        if val_files:
+            val_df = self.load_files(val_files)
+            val_scaled = scale_and_restore(val_df, mode="transform")
+
+        test_scaled = None
+        if test_files:
+            test_df = self.load_files(test_files)
+            test_scaled = scale_and_restore(test_df, mode="transform")
+
+        return train_scaled, val_scaled, test_scaled
+
+    def merge_files(
+        self,
+        input_files: Sequence[str],
+        *,
+        output_file: str | None = None,
+        sort_by_time: bool = True,
+    ) -> pd.DataFrame:
+        """
+        Merge multiple CSV files into one DataFrame (optionally save to CSV).
+        """
+        merged_df = self.load_files(list(input_files))
+        if sort_by_time and self.time_column in merged_df.columns:
+            merged_df[self.time_column] = pd.to_datetime(merged_df[self.time_column])
+            merged_df = merged_df.sort_values(by=self.time_column).reset_index(drop=True)
+
+        if output_file:
+            merged_df.to_csv(output_file, index=False)
+        return merged_df
+
+    def preprocess_year(
+        self,
+        *,
+        year: str,
+        base_dir: str = "dataset_raw",
+        output_suffix: str = "_cleaned",
+        plot: bool = True,
+    ) -> list[str]:
+        """
+        Convenience helper for yearly datasets with `a/b` split files.
+
+        - Uses `<base_dir>/mpi_roof_{year}a.csv` and `...{year}b.csv` by default
+        - Uses a single `<base_dir>/mpi_roof_{year}.csv` for 2024-style files
+        """
+        if year != "2024":
+            files_to_clean = [
+                f"{base_dir}/mpi_roof_{year}a.csv",
+                f"{base_dir}/mpi_roof_{year}b.csv",
+            ]
+        else:
+            files_to_clean = [f"{base_dir}/mpi_roof_{year}.csv"]
+
+        return self.process_multiple_files(files_to_clean, output_suffix=output_suffix, plot=plot)
 
