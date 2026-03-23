@@ -44,7 +44,7 @@ class TimeSeriesProcessor:
         self,
         file_paths: list[str],
         *,
-        time_format: str | None = "%d.%m.%Y %H:%M:%S",
+        time_format: str | None = "mixed", #"%d.%m.%Y %H:%M:%S",
     ) -> pd.DataFrame:
         config = CsvLoadConfig(
             time_column=self.time_column,
