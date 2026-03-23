@@ -61,13 +61,24 @@ class TimeSeriesProcessor:
     def sanity_checks(self, df: pd.DataFrame, *, plot: bool = True) -> pd.DataFrame:
         if self.value_columns is None:
             raise ValueError("value_columns must be set (or inferred by load_files).")
-        df_sorted, _ = sanity_checks(
+        df_sorted, checks = sanity_checks(
             df,
             time_column=self.time_column,
             value_columns=self.value_columns,
             sentinel_value=-9999,
             plot=plot,
         )
+
+        print("Missing values per column:")
+        print(checks.missing_summary)
+        print("Outliers detected per column:")
+        print(checks.outliers_per_column)
+        print("Sentinel default values per column:")
+        if checks.sentinel_default_counts is not None:
+            print(checks.sentinel_default_counts)
+        else:
+            print("No sentinel summary available.")
+
         return df_sorted
 
     def fill_missing(self, df: pd.DataFrame, method: str = "linear") -> pd.DataFrame:
