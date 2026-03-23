@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use timeflot-ts in your research, please cite it."
+title: "timeflot-ts: one-stop time series experimentation utilities"
+authors:
+  - name: "TimeFlot TS Contributors"
+year: 2026
+version: 0.1.0
+license: "MIT"
+

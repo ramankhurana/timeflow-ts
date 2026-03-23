@@ -1,0 +1,24 @@
+site_name: timeflot-ts
+site_url: ""
+repo_url: ""
+
+nav:
+  - Home: index.md
+  - Usage: usage.md
+  - API: api.md
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+
